@@ -38,12 +38,21 @@ public class Util
 	
 	for (int arrayLength = jewelArray.length; arrayLength > 0; jewelPosition -= 1)
 	{
-		while (jewelArray[arrayLength - 1] == jewelArray[arrayLength - 2])
+		while (jewelArray[arrayLength-1] == jewelArray[arrayLength - 2])
 		{
 			runCount += 1;
 			if (runCount >=3)
 			{
-				runPositions.add(arrayLength);
+				if (runPositions.contains(arrayLength - 1) & (runPositions.contains(arrayLength - 2)))
+				{
+					runPositions.add(arrayLength);
+				}
+				else
+				{
+					runPositions.add(arrayLength - 1);
+					runPositions.add(arrayLength - 2); 
+					runPositions.add(arrayLength);
+				}
 			}
 			
 		}
