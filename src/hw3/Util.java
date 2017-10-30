@@ -32,34 +32,45 @@ public class Util
    */
   public static ArrayList<Integer> findRuns(Jewel[] jewelArray)
   {
-	int jewelPosition = 0;
-	int runCount = 0;
+
+	int i = 1;
 	ArrayList<Integer> runPositions = new ArrayList<Integer>();
-	
-	for (int arrayLength = jewelArray.length; arrayLength > 0; jewelPosition -= 1)
+	for (int jewelPosition = 0; jewelPosition < jewelArray.length; jewelPosition++)
 	{
-		while (jewelArray[arrayLength-1] == jewelArray[arrayLength - 2])
+		if (jewelPosition >= 2)
 		{
-			runCount += 1;
-			if (runCount >=3)
+			int currentJewel = jewelArray[jewelPosition].getType();
+			int priorJewel = jewelArray[jewelPosition - 1].getType();
+			int twoJewelsBefore = jewelArray[jewelPosition - 2].getType();
+			
+			if (currentJewel == priorJewel && currentJewel == twoJewelsBefore)
 			{
-				if (runPositions.contains(arrayLength - 1) & (runPositions.contains(arrayLength - 2)))
+				if (!(runPositions.contains(jewelPosition) || runPositions.contains(jewelPosition - 1) || runPositions.contains(jewelPosition - 2)))
 				{
-					runPositions.add(arrayLength);
+					runPositions.add(jewelPosition - 2);
+					runPositions.add(jewelPosition - 1);
+					runPositions.add(jewelPosition);
+					
+					if (i > jewelPosition - jewelArray.length)
+						i = 0; 
+					while (currentJewel == jewelArray[jewelPosition + i].getType())
+					{
+						if (!(runPositions.contains(jewelPosition + i)))
+						{
+						runPositions.add(jewelPosition + i);
+						}
+					}
+					
 				}
-				else
-				{
-					runPositions.add(arrayLength - 1);
-					runPositions.add(arrayLength - 2); 
-					runPositions.add(arrayLength);
-				}
+				
 			}
 			
 		}
-		 
-	}
-    return runPositions;
-  }
+		
+	}  
+	runPositions.add(1);
+	return runPositions;
+}
   
   /**
    * Shifts all non-null elements in the array to the right without
